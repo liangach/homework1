@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>会员注册</title>
+    <style>
+      .document{
+        margin-left: 500px;
+      }
+      .title {
+        font-size: 20px;
+        color: blue;
+      }
+
+      .remarks {
+        color: red;
+        font-size: small;
+      }
+      
+      #veri{
+        background-color: rgb(0, 221, 255);
+        font-size: small;
+      }
+
+      .but{
+        font-size: small;
+      }
+
+      #previewImage{
+        display:none; 
+        max-width: 40%;
+        height: auto;
+      }
+
+      .intro-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .intro-label {
+        width: 72px;
+        text-align: left;
+        padding-right: 10px;
+      }
+
+       .intro-text { 
+         width: 300px; 
+         height: 150px; 
+       }
+
+      .button {
+        margin-left: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="document">
+      <p class="title">欢迎注册会员</p>
+      <form>
+        <p>
+          手机号码：
+          <input
+            type="text"
+            name="username"
+            maxlength="11"
+            placeholder="11位手机号"
+          />
+          <span class="remarks">必填</span>
+        </p>
+
+        <p>
+          创建密码：
+          <input
+            type="password"
+            name="pwd"
+            maxlength="8"
+            placeholder="8位密码"
+          />
+          <span class="remarks">必填</span>
+        </p>
+
+        <p>
+          注册邮箱：
+          <input
+            type="text"
+            name="email"
+            placeholder="例如:liangach3719@proton.me"
+            />
+            <span class="remarks">必填</span>
+        </p>
+
+        <p class="verification">
+          &nbsp;&nbsp;&nbsp;验证码：
+        <input type="text" class="text"> 
+        <span id="veri">12345</span>
+        <button type="button" onclick="refreshCaptcha()" class="but">刷新</button>
+        <script>  
+          function generateCaptcha() {  
+              let captchaText = "";  
+              const possible = "0123456789";  
+              const captchaLength = 5;  
+              for (let i = 0; i < captchaLength; i++) {  
+                  captchaText += possible.charAt(  
+                      Math.floor(Math.random() * possible.length)  
+                  );  
+              }  
+              return captchaText;  
+          }  
+    
+          function refreshCaptcha() {  
+              const captchaTextElement = document.getElementById("veri");  
+              captchaTextElement.textContent = generateCaptcha();  
+          }  
+          window.onload = function () {  
+              refreshCaptcha();  
+          };  
+      </script>  
+        </p>
+
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别：
+          <input type="radio" name="sex" value="male" />男
+          <input type="radio" name="sex" value="female" />女
+        </p>
+
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生日：
+        <input
+          type="text"
+          name="birthday"
+          value="年/月/日"
+          title="提示信息"
+        />
+        </p>
+
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄：
+        <input type="text" name="age" />
+        </p>
+
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;籍贯：
+        <select id="province" onchange="updateSubcategories()">
+          <option value="">请选择...</option>
+          <option value="hubei">湖北省</option>
+          <option value="hunan">湖南省</option>
+          <option value="jiangxi">江西省</option>
+        </select>
+
+        <select id="city"></select>
+
+        <script>
+          function updateSubcategories() {
+            var categorySelect = document.getElementById("province");
+            var subcategorySelect = document.getElementById("city");
+            subcategorySelect.innerHTML = "";
+
+            switch (categorySelect.value) {
+              case "hubei":
+                subcategorySelect.innerHTML =
+                  '<option value="WH">武汉市</option>' +
+                  '<option value="XT">仙桃市</option>' +
+                  '<option value="XY">襄阳市</option>';
+                break;
+
+              case "hunan":
+                subcategorySelect.innerHTML =
+                  '<option value="CS">长沙市</option>' +
+                  '<option value="XT">湘潭市</option>' +
+                  '<option value="ZZ">株洲市</option>';
+                break;
+
+              case "jiangxi":
+                subcategorySelect.innerHTML =
+                  '<option value="NC">南昌市</option>' +
+                  '<option value="JJ">九江市</option>' +
+                  '<option value="JDZ">景德镇市</option>';
+                break;
+
+              default:
+                subcategorySelect.innerHTML =
+                  '<option value="">请选择...</option>';
+            }
+          }
+
+          window.onload = function () {
+            updateSubcategories();
+          };
+        </script>
+        </p>
+
+        <p>
+          个人学历：
+        <select name="Acadeback">
+          <option value="tacite" selected="selected">请选择...</option>
+          <option value="0">小学</option>
+          <option value="1">初中</option>
+          <option value="2">高中</option>
+          <option value="3">本科</option>
+          <option value="4">硕士研究生</option>
+          <option value="5">博士研究生</option>
+        </select>
+        </p>
+
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月薪：
+        <input type="range" id="money" name="money" min="0.0" max="8000" step="500" value="0.0">
+        <span id="msg" style="color: blue;"></span>
+
+        <script>
+          var msg = document.getElementById("msg"); 
+          window.onload = function () { 
+            msg.innerHTML = document.getElementById("money").value;
+          }
+          document.getElementById("money").onchange = function () { 
+            msg.innerHTML = this.value; 
+          }
+        </script>
+        </p>
+
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;爱好：
+        <label>
+        <input type="checkbox" name="like" value="run">跑步
+        </label>
+        <label>
+        <input type="checkbox" name="like" value="fish">钓鱼
+        </label>
+        <label>
+            <input type="checkbox" name="like" value="sing">唱歌
+            </label>
+        </p>
+
+        <p>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;附件：
+          <input type="file" id="fileInput" accept="image/*">
+      </p>
+      <div id="preview">
+          <img id="previewImage">
+      </div>
+  
+      <script>
+          document.getElementById('fileInput').addEventListener('change', function(event) {
+              const file = event.target.files[0];
+              if (file) {
+                  const reader = new FileReader();
+                  
+                  reader.onload = function(e) {
+                      const img = document.getElementById('previewImage');
+                      img.src = e.target.result;
+                      img.style.display = 'block';
+                  };
+                  
+                  reader.readAsDataURL(file);
+              }
+          });
+      </script>
+
+        <p class="intro-container">
+          <label class="intro-label" for="intro">个人简介:</label>
+          <textarea name="intro" class="intro-text">&nbsp;</textarea>
+        </p>
+
+        <p class="button">
+          <input type="submit" value="提交"  onclick="foo()">
+          <script>
+            function foo() {
+            alert('提交成功!');
+            }
+            </script>
+          &nbsp;&nbsp;
+          <input type="reset" value="重填">
+        </p>
+
+      </form>
+    </div>
+  </body>
+</html>
